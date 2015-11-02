@@ -1,3 +1,6 @@
+var API_ROOT_URL = "http://api.pemiluapi.org/faqpilkada/api/";
+var API_KEY = "b88c59878a7538295c5315b3d9e73655";
+
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
@@ -67,5 +70,16 @@ angular.module('starter.controllers', [])
   
 })
 .controller('FaqCtrl',function($scope){
+  var ajaxUrl = API_ROOT_URL+"faqs?apiKey="+API_KEY;
+  console.log(ajaxUrl);
+  $.get(ajaxUrl,{},function(data){
+    //console.log(data);
+    var mData = data.data.results.faqs;
 
+    for(i in mData){
+      // console.log(mData[i]);
+      var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].question_text+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">'+mData[i].relevant_laws_regulations+'</p><p style="white-space:normal;">'+mData[i].question_answer+'</p></li>';
+      $("#faqs").append(newItem);
+    }
+  });
 });
