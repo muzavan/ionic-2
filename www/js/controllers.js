@@ -1,4 +1,4 @@
-var API_ROOT_URL = "http://api.pemiluapi.org/faqpilkada/api/";
+var API_ROOT_URL = "http://api.pemiluapi.org/";
 var API_KEY = "b88c59878a7538295c5315b3d9e73655";
 
 angular.module('starter.controllers', [])
@@ -67,12 +67,37 @@ angular.module('starter.controllers', [])
   
 })
 .controller('AnggaranCtrl',function($scope){
-  
+  if(window.localStorage.getItem("anggaran")==null){
+    //console.log("Via Api");
+    var ajaxUrl = API_ROOT_URL+"anggaran-pilkada/api/anggaran?apiKey="+API_KEY;
+    console.log(ajaxUrl);
+    $.get(ajaxUrl,{},function(data){
+      //console.log(data);
+      var mData = data.data.results.anggaran;
+      console.log(mData);
+      window.localStorage.setItem("anggaran",JSON.stringify(mData));
+      for(i in mData){
+        // console.log(mData[i]);
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+        $("#anggarans").append(newItem);
+      }
+    });
+  }
+  else{
+    //console.log("Via Local");
+    //console.log(window.localStorage.getItem("anggaran"));
+    var mData = JSON.parse(window.localStorage["anggaran"]);
+    for(i in mData){
+        // console.log(mData[i]);
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+        $("#anggarans").append(newItem);
+    }
+  }
 })
 .controller('FaqCtrl',function($scope){
-  if(window.localStorage["faq"]==null){
+  if(window.localStorage.getItem("faq")==null){
     //console.log("Via Api");
-    var ajaxUrl = API_ROOT_URL+"faqs?apiKey="+API_KEY;
+    var ajaxUrl = API_ROOT_URL+"faqpilkada/api/faqs?apiKey="+API_KEY;
     $.get(ajaxUrl,{},function(data){
       //console.log(data);
       var mData = data.data.results.faqs;
@@ -86,8 +111,8 @@ angular.module('starter.controllers', [])
   }
   else{
     //console.log("Via Local");
-    console.log(window.localStorage["faq"]);
-    //var mData = JSON.parse(window.localStorage["faq"]);
+    //console.log(window.localStorage["faq"]);
+    var mData = JSON.parse(window.localStorage.getItem("faq"));
     for(i in mData){
         // console.log(mData[i]);
         var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].question_text+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">'+mData[i].relevant_laws_regulations+'</p><p style="white-space:normal;">'+mData[i].question_answer+'</p></li>';
