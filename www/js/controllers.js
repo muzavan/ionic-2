@@ -70,16 +70,28 @@ angular.module('starter.controllers', [])
   
 })
 .controller('FaqCtrl',function($scope){
-  var ajaxUrl = API_ROOT_URL+"faqs?apiKey="+API_KEY;
-  console.log(ajaxUrl);
-  $.get(ajaxUrl,{},function(data){
-    //console.log(data);
-    var mData = data.data.results.faqs;
-
+  if(window.localStorage["faq"]==null){
+    //console.log("Via Api");
+    var ajaxUrl = API_ROOT_URL+"faqs?apiKey="+API_KEY;
+    $.get(ajaxUrl,{},function(data){
+      //console.log(data);
+      var mData = data.data.results.faqs;
+      window.localStorage.setItem('faq',JSON.stringify(mData));
+      for(i in mData){
+        // console.log(mData[i]);
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].question_text+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">'+mData[i].relevant_laws_regulations+'</p><p style="white-space:normal;">'+mData[i].question_answer+'</p></li>';
+        $("#faqs").append(newItem);
+      }
+    });
+  }
+  else{
+    //console.log("Via Local");
+    console.log(window.localStorage["faq"]);
+    //var mData = JSON.parse(window.localStorage["faq"]);
     for(i in mData){
-      // console.log(mData[i]);
-      var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].question_text+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">'+mData[i].relevant_laws_regulations+'</p><p style="white-space:normal;">'+mData[i].question_answer+'</p></li>';
-      $("#faqs").append(newItem);
+        // console.log(mData[i]);
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].question_text+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">'+mData[i].relevant_laws_regulations+'</p><p style="white-space:normal;">'+mData[i].question_answer+'</p></li>';
+        $("#faqs").append(newItem);
     }
-  });
+  }
 });
