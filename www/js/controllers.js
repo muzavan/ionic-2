@@ -101,21 +101,31 @@ angular.module('starter.controllers', [])
       var mData = data.data.results.anggaran;
       console.log(mData);
       window.localStorage.setItem("anggaran",JSON.stringify(mData));
+      //var si_lokasi = window.localStorage.getItem("si_lokasi");
+      var si_lokasi = "KAB. SUMBAWA";
       for(i in mData){
         // console.log(mData[i]);
-        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
-        $("#anggarans").append(newItem);
+        if (mData[i].wilayah.nama==si_lokasi)
+        {
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+          $("#anggarans").append(newItem);
+        }
       }
     });
   }
   else{
     //console.log("Via Local");
     //console.log(window.localStorage.getItem("anggaran"));
+    //var si_lokasi = window.localStorage.getItem("si_lokasi");
+    var si_lokasi = "KAB. SUMBAWA";
     var mData = JSON.parse(window.localStorage["anggaran"]);
     for(i in mData){
         // console.log(mData[i]);
-        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
-        $("#anggarans").append(newItem);
+        if (mData[i].wilayah.nama==si_lokasi)
+        {
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+          $("#anggarans").append(newItem);
+        }
     }
   }
 })
