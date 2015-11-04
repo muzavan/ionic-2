@@ -114,7 +114,10 @@ angular.module('starter.controllers', [])
     var mData = JSON.parse(window.localStorage["anggaran"]);
     for(i in mData){
         // console.log(mData[i]);
-        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+        var diajukan = "Rp "+mData[i].diajukan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var disetujui = "Rp "+mData[i].disetujui.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var digunakan = "Rp "+mData[i].digunakan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+diajukan+'</p><p style="white-space:normal;">Disetujui :'+disetujui+'</p><p style="white-space:normal;">Digunakan :'+digunakan+'</p></li>';
         $("#anggarans").append(newItem);
     }
   }
