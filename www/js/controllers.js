@@ -73,7 +73,7 @@ angular.module('starter.controllers', [])
         for (j in [0,1])
         {
           var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
-          $("#partais").append(newItem);          
+          $("#calons").append(newItem);          
         }
       }
     });
@@ -87,7 +87,7 @@ angular.module('starter.controllers', [])
         for (j in [0,1])
         {
           var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
-          $("#partais").append(newItem);          
+          $("#calons").append(newItem);          
         }
     }
   }  
