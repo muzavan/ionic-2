@@ -101,8 +101,8 @@ angular.module('starter.controllers', [])
       var mData = data.data.results.anggaran;
       console.log(mData);
       window.localStorage.setItem("anggaran",JSON.stringify(mData));
-      //var si_lokasi = window.localStorage.getItem("si_lokasi");
-      var si_lokasi = "KAB. SUMBAWA";
+      var si_lokasi = window.localStorage.getItem("sp_lokasi");
+      // var si_lokasi = "KAB. SUMBAWA";
       for(i in mData){
         // console.log(mData[i]);
         if (mData[i].wilayah.nama==si_lokasi)
@@ -116,7 +116,7 @@ angular.module('starter.controllers', [])
   else{
     //console.log("Via Local");
     //console.log(window.localStorage.getItem("anggaran"));
-    //var si_lokasi = window.localStorage.getItem("si_lokasi");
+    var si_lokasi = window.localStorage.getItem("sp_lokasi");
     var si_lokasi = "KAB. SUMBAWA";
     var mData = JSON.parse(window.localStorage["anggaran"]);
     for(i in mData){
