@@ -1,5 +1,6 @@
 var API_ROOT_URL = "http://api.pemiluapi.org/";
 var API_KEY = "b88c59878a7538295c5315b3d9e73655";
+var ID_KAB_DEFAULT = 9187;
 
 angular.module('starter.controllers', [])
 
@@ -46,12 +47,43 @@ angular.module('starter.controllers', [])
 
 .controller('CalonCtrl',function($scope){
   if(window.localStorage.getItem("sp_lokasi")!=null){
-
+    window.localStorage.clear();
+    if(window.localStorage.getItem("calon")==null){
+      //console.log("Via Api");
+      var ajaxUrl = API_ROOT_URL+"calonpilkada/api/candidates?apiKey="+API_KEY;
+      // console.log(ajaxUrl);
+      $.get(ajaxUrl,{},function(data){
+        //console.log(data);
+        var mData = data.data.results.candidates;
+        // console.log(mData);
+        window.localStorage.setItem("calon",JSON.stringify(mData));
+        for(i in mData){
+          // console.log(mData[i]);
+          for (j in [0,1])
+          {
+            var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].alamat)+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Pekerjaan</b></p><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].pekerjaan)+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Partai Pendukung</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Tempat tanggal lahir</b></p><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].pob)+' '+mData[i].paslon[j].dob+'</p></li>';
+            $("#calons").append(newItem);          
+          }
+        }
+      });
+    }
+    else{
+  //    console.log("Via Local");
+      //console.log(window.localStorage.getItem("partai"));
+      var mData = JSON.parse(window.localStorage.getItem("calon"));
+      for(i in mData){
+          // console.log(mData[i]);
+          for (j in [0,1])
+          {
+            var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].alamat)+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Pekerjaan</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Partai Pendukung</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Tempat tanggal lahir</b></p><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].pob)+' '+mData[i].paslon[j].dob+'</p></li>';
+            $("#calons").append(newItem);          
+          }
+      }
+    }  
   }
   else{
     $("#calons").append("Anda belum mengatur lokasi anda. Atur lokasi dengan pergi ke bagian Pengaturan >> Pilih Lokasi >> Simpan Lokasi");
   }
-
 })
 .controller('PartaiCtrl',function($scope){
   if(window.localStorage.getItem("sp_lokasi")!=null){
@@ -107,7 +139,10 @@ angular.module('starter.controllers', [])
         window.localStorage.setItem("anggaran",JSON.stringify(mData));
         for(i in mData){
           // console.log(mData[i]);
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
+          var diajukan = "Rp "+mData[i].diajukan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+          var disetujui = "Rp "+mData[i].disetujui.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+          var digunakan = "Rp "+mData[i].digunakan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+diajukan+'</p><p style="white-space:normal;">Disetujui :'+disetujui+'</p><p style="white-space:normal;">Digunakan :'+digunakan+'</p></li>';
           $("#anggarans").append(newItem);
         }
       });
@@ -117,9 +152,12 @@ angular.module('starter.controllers', [])
       //console.log(window.localStorage.getItem("anggaran"));
       var mData = JSON.parse(window.localStorage["anggaran"]);
       for(i in mData){
-          // console.log(mData[i]);
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+mData[i].diajukan+'</p><p style="white-space:normal;">Disetujui :'+mData[i].disetujui+'</p><p style="white-space:normal;">Digunakan :'+mData[i].digunakan+'</p></li>';
-          $("#anggarans").append(newItem);
+        // console.log(mData[i]);
+        var diajukan = "Rp "+mData[i].diajukan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var disetujui = "Rp "+mData[i].disetujui.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var digunakan = "Rp "+mData[i].digunakan.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
+        var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;"><h3 style="white-space:normal;">'+mData[i].wilayah.nama+'</h3><p style="font-size:9pt;font-weight:700;white-space:normal;">Diajukan : '+diajukan+'</p><p style="white-space:normal;">Disetujui :'+disetujui+'</p><p style="white-space:normal;">Digunakan :'+digunakan+'</p></li>';
+        $("#anggarans").append(newItem);
       }
     }
   }
@@ -156,8 +194,7 @@ angular.module('starter.controllers', [])
   }
   else{
     $("#faqs").append("Anda belum mengatur lokasi anda. Atur lokasi dengan pergi ke bagian Pengaturan >> Pilih Lokasi >> Simpan Lokasi");
-  }
-  
+  } 
 })
 .controller('PengaturanCtrl',function($scope){
     var regionsURL = "js/regions.json";
@@ -180,10 +217,22 @@ angular.module('starter.controllers', [])
       for(i in mData){
         if(mData[i].id == val){
           //console.log(mData[i].id,mData[i].name);
+          window.localStorage.clear();
           window.localStorage.setItem("sp_lokasi",JSON.stringify(mData[i]));
           $("#pesan").text("Berhasil disimpan.");
           break;
         }
       }
     };
-  })
+});
+
+function toTitleCase(str)
+{
+    if (str === str.toUpperCase())
+    {
+      return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});      
+    }
+    else
+      return str
+}
+
