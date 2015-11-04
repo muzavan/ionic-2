@@ -34,6 +34,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 
   .state('app.calon', {
     url: '/calon',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/calon.html',
@@ -62,6 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     })
     .state('app.anggaran', {
       url: '/anggaran',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/anggaran.html',
