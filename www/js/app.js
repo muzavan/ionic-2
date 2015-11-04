@@ -77,6 +77,15 @@ angular.module('starter', ['ionic', 'starter.controllers'])
           controller: 'FaqCtrl'
         }
       }
+    })
+    .state('app.pengaturan', {
+      url: '/pengaturan',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/pengaturan.html',
+          controller: 'PengaturanCtrl'
+        }
+      }
     });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/calon');
