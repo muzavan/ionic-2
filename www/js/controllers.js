@@ -58,7 +58,7 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 .controller('CalonCtrl',function($scope){
-//  window.localStorage.clear();
+ window.localStorage.clear();
   if(window.localStorage.getItem("calon")==null){
     //console.log("Via Api");
     var ajaxUrl = API_ROOT_URL+"calonpilkada/api/candidates?apiKey="+API_KEY;
@@ -72,7 +72,7 @@ angular.module('starter.controllers', [])
         // console.log(mData[i]);
         for (j in [0,1])
         {
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Pekerjaan</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Partai Pendukung</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Tempat tanggal lahir</b></p><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].pob)+' '+mData[i].paslon[j].dob+'</p></li>';
           $("#calons").append(newItem);          
         }
       }
@@ -86,7 +86,7 @@ angular.module('starter.controllers', [])
         // console.log(mData[i]);
         for (j in [0,1])
         {
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Pekerjaan</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Partai Pendukung</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Tempat tanggal lahir</b></p><p style="white-space:normal;">'+toTitleCase(mData[i].paslon[j].pob)+' '+mData[i].paslon[j].dob+'</p></li>';
           $("#calons").append(newItem);          
         }
     }
@@ -183,3 +183,8 @@ angular.module('starter.controllers', [])
     }
   }
 });
+
+function toTitleCase(str)
+{
+    return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+}
