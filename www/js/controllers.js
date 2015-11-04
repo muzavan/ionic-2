@@ -125,7 +125,35 @@ else{
   })
 .controller('SengketaCtrl',function($scope){
   if(window.localStorage.getItem("sp_lokasi")!=null){
-
+    if(window.localStorage.getItem("sengketa")==null){
+      //console.log("Via Api");
+      var ajaxUrl = API_ROOT_URL+"sengketa-pilkada/api/disputes?apiKey="+API_KEY;
+      console.log(ajaxUrl);
+      $.get(ajaxUrl,{},function(data){
+        //console.log(data);
+        var mData = data.data.results.disputes;
+        // console.log(mData);
+        window.localStorage.setItem("sengketa",JSON.stringify(mData));
+        for(i in mData){
+          if(mData[i].region.id==JSON.parse(window.localStorage.getItem("sp_lokasi")).id){
+            var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].region.constituency+'<p style="margin-top:3px;"><b style="font-size:10pt;">Dilaporkan oleh:</b>'+mData[i].applicant+'</p>'+'<p style="margin-top:3px;"><b style="font-size:10pt;">Dilaporkan kepada: </b>'+mData[i].respondent+'</p>'+'<p style="margin-top:3px;"><b style="font-size:10pt;">Putusan: </b>'+mData[i].decision_verdict+'</p></li>';
+            $("#sengketas").append(newItem);
+          }
+        }
+      });
+    }
+    else{
+      //console.log("Via Local");
+      //console.log(window.localStorage.getItem("partai"));
+      var mData = JSON.parse(window.localStorage.getItem("sengketa"));
+      window.localStorage.setItem("sengketa",JSON.stringify(mData));
+        for(i in mData){
+          if(mData[i].region.id==JSON.parse(window.localStorage.getItem("sp_lokasi")).id){
+            var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].region.constituency+'<p style="margin-top:3px;"><b style="font-size:10pt;">Dilaporkan oleh:</b>'+mData[i].applicant+'</p>'+'<p style="margin-top:3px;"><b style="font-size:10pt;">Dilaporkan kepada: </b>'+mData[i].respondent+'</p>'+'<p style="margin-top:3px;"><b style="font-size:10pt;">Putusan: </b>'+mData[i].decision_verdict+'</p></li>';
+            $("#sengketas").append(newItem);
+          }
+        }
+    }
   }
   else{
     $("#sengketas").append("Anda belum mengatur lokasi anda. Atur lokasi dengan pergi ke bagian Pengaturan >> Pilih Lokasi >> Simpan Lokasi");
@@ -218,6 +246,9 @@ else{
   var mData = null;
   $.get(regionsURL,{},function(data){
     mData = data;
+    mData.sort(function(a, b) {
+      return compareStrings(a.name, b.name);
+    });
     for(i in mData){
       var newItem = '<option value="'+mData[i].id+'">'+mData[i].name+'</option>';
       $("#lokasis").append(newItem);
@@ -252,3 +283,10 @@ function toTitleCase(str)
     return str
 }
 
+function compareStrings(a, b) {
+  // Assuming you want case-insensitive comparison
+  a = a.toLowerCase();
+  b = b.toLowerCase();
+
+  return (a < b) ? -1 : (a > b) ? 1 : 0;
+}

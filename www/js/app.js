@@ -53,6 +53,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.sengketa', {
+      cache:false,
       url: '/sengketa',
       views: {
         'menuContent': {
@@ -81,6 +82,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     })
     .state('app.pengaturan', {
+      cache:false,
       url: '/pengaturan',
       views: {
         'menuContent': {
