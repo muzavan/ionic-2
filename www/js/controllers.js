@@ -58,7 +58,39 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 })
 .controller('CalonCtrl',function($scope){
-  
+//  window.localStorage.clear();
+  if(window.localStorage.getItem("calon")==null){
+    //console.log("Via Api");
+    var ajaxUrl = API_ROOT_URL+"calonpilkada/api/candidates?apiKey="+API_KEY;
+    // console.log(ajaxUrl);
+    $.get(ajaxUrl,{},function(data){
+      //console.log(data);
+      var mData = data.data.results.candidates;
+      // console.log(mData);
+      window.localStorage.setItem("calon",JSON.stringify(mData));
+      for(i in mData){
+        // console.log(mData[i]);
+        for (j in [0,1])
+        {
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
+          $("#partais").append(newItem);          
+        }
+      }
+    });
+  }
+  else{
+//    console.log("Via Local");
+    //console.log(window.localStorage.getItem("partai"));
+    var mData = JSON.parse(window.localStorage.getItem("calon"));
+    for(i in mData){
+        // console.log(mData[i]);
+        for (j in [0,1])
+        {
+          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].paslon[j].nama+'</h3><p style="white-space:normal;">'+mData[i].paslon[j].alamat+'</p><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pekerjaan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].dukungan+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].paslon[j].pob+' '+mData[i].paslon[j].dob+'</p></li>';
+          $("#partais").append(newItem);          
+        }
+    }
+  }  
 })
 .controller('PartaiCtrl',function($scope){
   if(window.localStorage.getItem("partai")==null){
