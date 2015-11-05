@@ -1,0 +1,42 @@
+ [
+  {
+    "id":1,
+    "name":["Partai Nasdem","Nasdem"]
+  },
+  {
+    "id":2,
+    "name":["Partai Kebangkitan Bangsa","PKB"]
+  },
+  {
+    "id":3,
+    "name":["PKS","Partai Keadilan Sejahtera"]
+  },
+  {
+    "id":4,
+    "name":["PDI-P","Partai Demokrasi Indonesia Perjuangan","PDI Perjuangan"]
+  },
+  {
+    "id":5,
+    "name":["Partai Golkar","Partai Golongan Karya","Golkar"]
+  },
+  {
+    "id":6,
+    "name":["Partai Gerindra","Gerindra","Partai Gerakan Indonesia Raya"]
+  },
+  {
+    "id":7,
+    "name":["Dem","Partai Demokrat","Demokrat"]
+  },
+  {
+    "id":8,
+    "name":["PAN","Partai Amanat Nasional"]
+  },
+  {
+    "id":9,
+    "name":["PPP","Partai Persatuan Pembangunan"]
+  },
+  {
+    "id":10,
+    "name":["Partai Hanura","Hanura","Partai Hati Nurani Rakyat"]
+  }
+]

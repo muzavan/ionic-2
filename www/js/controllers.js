@@ -91,37 +91,70 @@ else{
     }
   })
 .controller('PartaiCtrl',function($scope){
-  if(window.localStorage.getItem("sp_lokasi")!=null){
-    if(window.localStorage.getItem("partai")==null){
-      ////console.log("Via Api");
-      var ajaxUrl = API_ROOT_URL+"partai/api/parties?apiKey="+API_KEY;
-      //console.log(ajaxUrl);
-      $.get(ajaxUrl,{},function(data){
-        ////console.log(data);
-        var mData = data.data.results.parties;
-        // //console.log(mData);
-        window.localStorage.setItem("partai",JSON.stringify(mData));
-        for(i in mData){
-          // //console.log(mData[i]);
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].nama_lengkap+'</h3><img src="'+mData[i].url_logo_medium+'" height="60px" width="60px" /><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].visi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].misi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].program+'</p></li>';
-          $("#partais").append(newItem);
+  var partaiURL = "js/partai.json";
+   $.getJSON("/js/partai.json",function(jsonPartai){
+    if(window.localStorage.getItem("sp_lokasi")!=null){
+          if(window.localStorage.getItem("partai")==null){
+            //console.log("Via Api");
+            var partiesUrl = API_ROOT_URL+"partai/api/parties?apiKey="+API_KEY;
+            var candidatesUrl = API_ROOT_URL+"calonpilkada/api/candidates?apiKey="+API_KEY;
+            //console.log(data);
+            $.get(partiesUrl,{},function(dataPartai){
+              $.get(candidatesUrl,{},function(dataKandidat){
+                var mData = dataPartai.data.results.parties;
+                var candidateData = dataKandidat.data.results.candidates;
+                var arrayPartai = [];
+                for(id_kandidat in candidateData){
+                  if(JSON.parse(window.localStorage.getItem("sp_lokasi")).id==candidateData[id_kandidat].daerah.id){
+                    var stringCandidate = candidateData[id_kandidat].dukungan;
+                    var temp = stringCandidate.split(", ");
+                    arrayPartai = arrayPartai.concat(temp);    
+                  }
+                }
+                // console.log(mData);
+                window.localStorage.setItem("partai",JSON.stringify(mData));
+                for(i in arrayPartai){
+                for(j in jsonPartai){
+                for(k=0;k<jsonPartai[j].name.length;k++){
+                  if(arrayPartai[i].toLowerCase() == jsonPartai[j].name[k].toLowerCase()){
+                    var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].nama_lengkap+'</h3><img src="'+mData[i].url_logo_medium+'" height="60px" width="60px" /><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].visi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].misi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].program+'</p></li>';
+                    $("#partais").append(newItem);
+                   }
+                  }
+                }
+              }
+            });
+            });
+          }
+          else{
+            console.log("Via Local");
+            //console.log(window.localStorage.getItem("partai"));
+            var mData = JSON.parse(window.localStorage.getItem("partai"));
+            var candidateData = JSON.parse(window.localStorage.getItem("calon"));
+            var arrayPartai = [];
+            for(id_kandidat in candidateData){
+              if(JSON.parse(window.localStorage.getItem("sp_lokasi")).id==candidateData[id_kandidat].daerah.id){
+                var stringCandidate = candidateData[id_kandidat].dukungan;
+                var temp = stringCandidate.split(", ");
+                arrayPartai = arrayPartai.concat(temp);
+              }
+            }
+            for(i in arrayPartai){
+              for(j in jsonPartai){
+                for(k=0;k<jsonPartai[j].name.length;k++){
+                  if(arrayPartai[i].toLowerCase() == jsonPartai[j].name[k].toLowerCase()){
+                    var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].nama_lengkap+'</h3><img src="'+mData[i].url_logo_medium+'" height="60px" width="60px" /><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].visi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].misi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].program+'</p></li>';
+                    $("#partais").append(newItem);
+                   }
+                  }
+                }
+              }
+            }
         }
-      });
-    }
-    else{
-      //console.log("Via Local");
-      ////console.log(window.localStorage.getItem("partai"));
-      var mData = JSON.parse(window.localStorage.getItem("partai"));
-      for(i in mData){
-          // //console.log(mData[i]);
-          var newItem = '<li class="item" style="white-space:normal;box-shadow: 1px 2px 1px #aaaaaa;margin-bottom:5px;text-align:center;"><h3 style="white-space:normal;font-weight:700;font-size:14pt;">'+mData[i].nama_lengkap+'</h3><img src="'+mData[i].url_logo_medium+'" height="60px" width="60px" /><p style="margin-top:3px;"><b style="font-size:11pt;">Visi</b></p><p style="white-space:normal;">'+mData[i].visi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Misi</b></p><p style="white-space:normal;">'+mData[i].misi+'</p><p style="margin-top:3px;"><b style="font-size:10pt;">Program</b></p><p style="white-space:normal;">'+mData[i].program+'</p></li>';
-          $("#partais").append(newItem);
-        }
-      }
-    }
-    else{
-      $("#partais").append("Anda belum mengatur lokasi anda. Atur lokasi dengan pergi ke bagian Pengaturan >> Pilih Lokasi >> Simpan Lokasi");
-    }
+          else{
+            $("#partais").append("Anda belum mengatur lokasi anda. Atur lokasi dengan pergi ke bagian Pengaturan >> Pilih Lokasi >> Simpan Lokasi");
+          }
+  });        
   })
 .controller('SengketaCtrl',function($scope){
   if(window.localStorage.getItem("sp_lokasi")!=null){
