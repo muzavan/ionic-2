@@ -43,6 +43,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
+  .state('app.head2head', {
+    url: '/head2head',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/head2head.html',
+        controller: 'Head2HeadCtrl'
+      }
+    }
+  })
+
   .state('app.partai', {
       url: '/partai',
       views: {
