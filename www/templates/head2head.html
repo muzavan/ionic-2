@@ -1,0 +1,17 @@
+<ion-view view-title="Head-to-Head">
+<ion-content>
+<h1>Head-to-Head</h1>
+<h5>Mari jadi pemilih cerdas, dengan cari pilihan yang paling berkualitas.</h5>
+<ul class="list" id="calons" ng-repeat="(key, value) in calons ">
+	<li class="item"> <input type="checkbox" value="{{value.id_peserta}}"/>{{ value.paslon[0].nama }} & {{ value.paslon[1].nama }}</li>
+</ul>
+
+<button ng-click="showAll()">Bandingkan.</button>
+<h2>Visi:</h2>
+<ul class="list" id="visis">
+</ul>
+<h2>Misi:</h2>
+<ul class="list" id="misis">
+</ul>
+</ion-content>
+</ion-view>
